@@ -15,6 +15,10 @@ while run_calculator:
         input_string = input(">").strip()
         tokens = input_string.split(" ")
         tokens = [item for item in tokens if len(item) != 0]
+        if tokens[0] in ["+", "-", "*", "/", "mod", "pow"] and len(tokens) < 3:
+            raise IndexError
+        elif tokens[0] in ["square", "cube"] and len(tokens) < 2:
+            raise IndexError
         for i in range(1, len(tokens)):
             tokens[i] = float(tokens[i])
     except ValueError:
@@ -30,7 +34,10 @@ while run_calculator:
     elif tokens[0] == "*":
         print(multiply(tokens[1], tokens[2]))
     elif tokens[0] == "/":
-        print(divide(tokens[1], tokens[2]))
+        try:
+            print(divide(tokens[1], tokens[2]))
+        except ZeroDivisionError:
+            print("Can't divide by zero")
     elif tokens[0] == "square":
         print(square(tokens[1]))
     elif tokens[0] == "cube":
@@ -43,3 +50,6 @@ while run_calculator:
         run_calculator = False
     else: 
         print("Invalid arithmetic function. Try again")
+
+
+
